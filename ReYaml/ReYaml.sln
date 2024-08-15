@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33423.256
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReYaml", "ReYaml\ReYaml.csproj", "{48E8B7D3-24A3-4663-AF88-AB4B49A707ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestReYaml", "UnitTestReYaml\UnitTestReYaml.csproj", "{A288974C-86ED-498E-AC39-6274DBA8A1B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48E8B7D3-24A3-4663-AF88-AB4B49A707ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E8B7D3-24A3-4663-AF88-AB4B49A707ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E8B7D3-24A3-4663-AF88-AB4B49A707ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E8B7D3-24A3-4663-AF88-AB4B49A707ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A288974C-86ED-498E-AC39-6274DBA8A1B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A288974C-86ED-498E-AC39-6274DBA8A1B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A288974C-86ED-498E-AC39-6274DBA8A1B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A288974C-86ED-498E-AC39-6274DBA8A1B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {819EDB73-5CFF-4411-8D66-DE664F0BA57D}
+	EndGlobalSection
+EndGlobal
