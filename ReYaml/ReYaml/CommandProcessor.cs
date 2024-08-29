@@ -13,7 +13,7 @@ namespace ReYaml
 	/// <summary>
 	/// Класс обработки команд от движка Армы.
 	/// </summary>
-	static class CommandProcessor
+	public static class CommandProcessor
 	{
 		private static StringBuilder partialBuffer = new StringBuilder();
 
@@ -25,7 +25,7 @@ namespace ReYaml
 		/// <param name="outputSize"></param>
 		/// <param name="function">Command name</param>
 		/// <param name="args">Arguments of strings</param>
-		internal static void ParseCommand(StringBuilder output, int outputSize, string function, string[] args)
+		public static void ParseCommand(StringBuilder output, int outputSize, string function, string[] args)
 		{
 			
 			if (function == "parse_string")

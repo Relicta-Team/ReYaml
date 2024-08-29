@@ -13,6 +13,7 @@ namespace ReYaml
 		static void Main(string[] args)
 		{
 			//input file 
+			/*
 			string path = "..\\..\\test.yml";
 			string content = File.ReadAllText(path);
 			Debug.Assert(content != "");
@@ -21,9 +22,13 @@ namespace ReYaml
 
 
 			StringBuilder output = new StringBuilder();
-			CommandProcessor.ParseCommand(output, 0, "parse_string", new string[] { content });
+			CommandProcessor.ParseCommand(output, 100000, "parse_string", new string[] { content });
 			File.WriteAllText(path + "_out.yml", output.ToString());
             Console.WriteLine(output);
+			*/
+			
+			
+
 			/*
 			 Types:
 				[] - array
