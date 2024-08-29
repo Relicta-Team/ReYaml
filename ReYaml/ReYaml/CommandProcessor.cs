@@ -15,6 +15,8 @@ namespace ReYaml
 	/// </summary>
 	static class CommandProcessor
 	{
+		private static StringBuilder partialBuffer = new StringBuilder();
+
 		/// <summary>
 		/// Commands handler from RVEngine. This function called in main game thread.
 		/// !!! This function should not throw unhandled exceptions, otherwise the application will crash
@@ -32,6 +34,12 @@ namespace ReYaml
                 try
                 {
 					var d = ParseString(args[0]);
+					if (d.Length > outputSize)
+                    {
+						partialBuffer = d;
+						output.Append("$PART$");
+						return;
+                    }
 					output.Append(d);
                 }
                 catch (YamlDotNet.Core.YamlException yex)
@@ -42,6 +50,16 @@ namespace ReYaml
                 {
 					output.Append($"$EX$:{ex}");
                 }
+            }
+			else if (function == "has_parts")
+            {
+				output.Append(partialBuffer.Length > 0);
+            }
+			else if (function == "next_read")
+            {
+				output.Append(partialBuffer.ToString(0, Math.Min(outputSize, partialBuffer.Length)));
+				partialBuffer.Remove(0, Math.Min(outputSize, partialBuffer.Length) );
+				return;
             }
 
         }
