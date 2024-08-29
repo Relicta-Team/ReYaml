@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+
 namespace ReYaml
 {
 	class Program
@@ -16,9 +17,13 @@ namespace ReYaml
 			string content = File.ReadAllText(path);
 			Debug.Assert(content != "");
 
+			
+
+
 			StringBuilder output = new StringBuilder();
 			CommandProcessor.ParseCommand(output, 0, "parse_string", new string[] { content });
-
+			File.WriteAllText(path + "_out.yml", output.ToString());
+            Console.WriteLine(output);
 			/*
 			 Types:
 				[] - array
