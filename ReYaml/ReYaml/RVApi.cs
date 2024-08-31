@@ -32,7 +32,8 @@ namespace ReYaml
 		public static void RvExtension(StringBuilder output, int outputSize, [MarshalAs(UnmanagedType.LPStr)] string function)
 		{
 #if ISDLL
-			callback("1", "2", "3");
+			//callback("1", "2", "3");
+			output.Append("ReYaml");
 #else
 			output.Append("Relicta Yaml Parser. Version: " + version.ToString());
 #endif
@@ -51,6 +52,10 @@ namespace ReYaml
 		   [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeParamIndex = 4)] string[] args, int argCount)
 		{
 			CommandProcessor.ParseCommand(output, outputSize, function, args);
+			if (CommandProcessor.debugPrinter)
+			{
+				CommandProcessor.debugPrint($"ONCALL({function});OUTPUT({outputSize})<{output}>END::");
+			}
 			return 0;
 		}
 
