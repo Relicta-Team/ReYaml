@@ -22,14 +22,14 @@ namespace UnitTestReYaml
 			
 			var output = new StringBuilder();
 			
-			CommandProcessor.ParseCommand(output, size, "parse_string", new string[] { textData });
+			CommandProcessor.ParseCommand(output, size, "parse_string", new string[] { textData, "" });
 
-			if (parsedData.Length > size)
+			if (parsedData.Length > size/2)
             {
-				Assert.AreEqual("$PART$", output.ToString(), $"Unexpected part token for buffsize {size}, outlen: {output.Length}");
+				Assert.AreEqual("$PART$", output.ToString(), $"Unexpected part token for buffsize {size/2}, outlen: {output.Length}");
             } else
             {
-				Assert.AreEqual(parsedData, output.ToString(), $"Result missmatch for buffsize {size}; Parsed data len {parsedData.Length}");
+				Assert.AreEqual(parsedData, output.ToString(), $"Result missmatch for buffsize {size/2}; Parsed data len {parsedData.Length}");
 				return;
             }
 
@@ -43,15 +43,16 @@ namespace UnitTestReYaml
 				{
 					comDat.Clear();
 					var bufflen = getbuffer().Length;
-					CommandProcessor.ParseCommand(comDat, size, "next_read", new string[] { });
+					CommandProcessor.ParseCommand(comDat, size, "next_read", new string[] { "" });
 					finalOut += comDat;
-					if (bufflen < size)
+					int midSize = size / 2;
+					if (bufflen < midSize)
 					{
 						Assert.AreEqual(0, getbuffer().Length);
 					}
 					else
 					{
-						Assert.AreEqual(bufflen, getbuffer().Length + size);
+						Assert.AreEqual(bufflen, getbuffer().Length + midSize);
 					}
 
 				}
@@ -76,8 +77,8 @@ namespace UnitTestReYaml
 			{
 				parsedData = parsedData.Replace("\r", "");
 			}
-			
-			for (int i = 10; i < (textData.Length + 10); i++)
+			int minSize = 10;
+			for (int i = minSize; i < (textData.Length + minSize); i++)
             {
 				test_buffer_size(textData,parsedData,i);
             }
