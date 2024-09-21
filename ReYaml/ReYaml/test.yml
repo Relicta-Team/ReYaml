@@ -1,9 +1,22 @@
 
+RefSements:
+    regionName: &region_ref "Reference as is"
+    
+BaseConfig: &base_cfg
+    emplace_val: 321
+    
+
 TestLoot:
   type: Loot # Все конфиги должны иметь тип
   interface: true # интерфейсы только для заготовки шаблонов
   inherit: BaseLoot # Опциональное наследование конфигурации.
   name: some name # Описательное название конфигурации (опционально)
+  
+  reference: *region_ref
+  sect:
+    sec_storage: *base_cfg
+    v2: 3
+  
   allowmaps: # попадание хотя бы под одну группу разрешает тип
     - regex: "*Map[1-9]" #regex like pattern
     - name: TestMap #exact
@@ -18,3 +31,4 @@ TestLoot:
     Key:
       prob: 20
       count: 4 #fixed count
+      
