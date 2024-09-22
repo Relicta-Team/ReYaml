@@ -22,11 +22,11 @@ namespace ReYaml
 
 
 			StringBuilder output = new StringBuilder();
-			CommandProcessor.ParseCommand(output, 100000, "parse_string", new string[] { content,"" });
+			CommandProcessor.ParseCommand(output, 100000, "parse_string", new string[] { content,"","call build_ordered_map" });
 			File.WriteAllText(path + "_out.yml", output.ToString());
             Console.WriteLine(output);
-			
 			*/
+			
 			
 
 			/*

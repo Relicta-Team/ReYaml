@@ -23,7 +23,7 @@ namespace ReYaml
 	/// </summary>
 	public static class RVApi
 	{
-		static Version version = new Version(0, 1);
+		static Version version = new Version(1, 0);
 
 		[DllExport("RVExtensionVersion", CallingConvention = CallingConvention.Winapi)]
 		public static void RvExtensionVersion(StringBuilder output, int outputSize) { output.Append(version.ToString()); }		

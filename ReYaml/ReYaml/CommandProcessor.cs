@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using YamlDotNet.RepresentationModel;
 using System.IO;
 using YamlDotNet.Serialization;
+using YamlDotNet.Core;
 
 namespace ReYaml
 {
@@ -52,18 +53,24 @@ namespace ReYaml
 
 			if (function == "parse_string")
 			{
-				if (args.Length != 2) return;
+				if (args.Length < 2) return;
 				try
 				{
 					string charReplacer = args[1];
 					bool useReplacer = charReplacer != "";
 					string content = args[0];
+					string postfixMapper = "";
+					if (args.Length > 2)
+                    {
+						postfixMapper = args[2];
+                    }
+
 					if (useReplacer)
 					{
 						content = content.Replace(charReplacer, "\"");
 					}
 
-					var d = ParseString(content);
+					var d = ParseString(content,ref postfixMapper);
 					if (d.Length > semiOutputSize) //размер строки больше половины размера выхода
 					{
 						partialBuffer = d;
@@ -143,13 +150,22 @@ namespace ReYaml
 
         }
 
-		static StringBuilder ParseString(string str) {
-			var des = new YamlDotNet.Serialization.Deserializer();
-			var data = des.Deserialize(str);
+		static IDeserializer desBld = null;
+
+		static StringBuilder ParseString(string str,ref string postfix) {
+			//var des = new YamlDotNet.Serialization.Deserializer();
+			//var data = des.Deserialize(str);
+
+			var mergingParser = new MergingParser(new Parser(new StringReader(str)));
+			if (desBld==null)
+            {
+				desBld = new DeserializerBuilder().Build();
+			}
+			var data = desBld.Deserialize(mergingParser);
 
 			StringBuilder sb = new StringBuilder();
 			if (data == null) throw new NullReferenceException("Unhandled error on parse data");
-			convertDataToGame(sb,data);
+			convertDataToGame(sb,data, ref postfix);
 			return sb;
 		}
 
@@ -157,16 +173,23 @@ namespace ReYaml
 		private static Regex patternBool = new Regex(@"^(y|Y|yes|Yes|YES|true|True|TRUE|on|On|ON|false|n|N|no|No|NO|False|FALSE|off|Off|OFF)$");
 		private static Regex patternBoolTrue = new Regex(@"^(y|Y|yes|Yes|YES|true|True|TRUE|on|On|ON)$");
 
-		static void convertDataToGame(StringBuilder sb, object val)
+		static void convertDataToGame(StringBuilder sb, object val,ref string postfixMapper)
         {
 			if (val is Dictionary<object,object>)
             {
+				bool usePostfix = postfixMapper != string.Empty;
 				var valp = (Dictionary<object, object>)val;
 				//map struct: chmp[PAIR1, PAIR2..]
 #if ISDLL
-				sb.Append("createHashMapFromArray[");
+				if (usePostfix)
+					sb.Append("[");
+				else
+					sb.Append("createHashMapFromArray[");
 #else
-				sb.Append("CHMP[\n");
+				if (usePostfix)
+					sb.Append("[\n");
+				else
+					sb.Append("CHMP[\n");
 #endif
 				var iter = 0;
 				foreach(var kp in valp)
@@ -181,14 +204,15 @@ namespace ReYaml
 
 					//kv-pair: [KEY,VAL]
 					sb.Append("[");
-					convertDataToGame(sb,kp.Key);
+					convertDataToGame(sb,kp.Key, ref postfixMapper);
 					sb.Append(",");
-					convertDataToGame(sb, kp.Value);
+					convertDataToGame(sb, kp.Value, ref postfixMapper);
 					sb.Append("]");
 
 					iter++;
 				}
 				sb.Append("]");
+				if (usePostfix) sb.Append(postfixMapper);
 #if !ISDLL
 				sb.Append("\n");
 #endif
@@ -211,7 +235,7 @@ namespace ReYaml
 						sb.Append("\n");
 #endif
 					}
-					convertDataToGame(sb, el);
+					convertDataToGame(sb, el,ref postfixMapper);
 					iter++;
                 }
 				sb.Append("]");

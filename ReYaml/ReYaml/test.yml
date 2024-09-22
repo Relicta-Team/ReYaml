@@ -1,3 +1,10 @@
+parent: &defaults
+  a: 2
+  b: 3
+
+child:
+  <<: *defaults
+  b: 4
 
 RefSements:
     regionName: &region_ref "Reference as is"
