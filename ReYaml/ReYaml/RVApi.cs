@@ -32,6 +32,11 @@ namespace ReYaml
 		public static void RvExtension(StringBuilder output, int outputSize, [MarshalAs(UnmanagedType.LPStr)] string function)
 		{
 #if ISDLL
+			if (function == "get_version")
+			{
+				output.Append(version.ToString());
+				return;
+			}
 			//callback("1", "2", "3");
 			output.Append("ReYaml");
 #else
